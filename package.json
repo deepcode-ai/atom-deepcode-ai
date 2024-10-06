@@ -1,0 +1,131 @@
+{
+  "name": "publish-test-atom-deepcode-ai",
+  "main": "./src/main.js",
+  "version": "1.1.0",
+  "description": "Detect bugs and quality issues in JavaScript, TypeScript, React and Vue.js more precisely",
+  "repository": "https://github.com/deepcode-ai/publish-test-atom-deepcode-ai.git",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.13.0 <2.0.0"
+  },
+  "configSchema": {
+    "enable": {
+      "title": "Enable",
+      "description": "Controls whether deepcode-ai inspection should be enabled",
+      "type": "boolean",
+      "default": false,
+      "order": 1
+    },
+    "server": {
+      "title": "Server",
+      "description": "Configures the deepcode-ai server url",
+      "type": "string",
+      "default": "https://deepcode-ai.github.io",
+      "order": 2
+    },
+    "proxy": {
+      "title": "Proxy",
+      "description": "Configures the proxy. If not set will be taken from the http_proxy environment variable.",
+      "type": "string",
+      "default": "",
+      "order": 3
+    },
+    "ignoreConfirmWarning": {
+      "title": "Controls whether you allow transferring your code to the deepcode-ai server without prompt. Transferred code is completely deleted right after the inspection.",
+      "description": "",
+      "type": "boolean",
+      "default": false,
+      "order": 4
+    },
+    "ignoreRules": {
+      "title": "Rules to be ignored",
+      "description": "Configures the rules to be ignored. e.g., UNUSED_DECL, BAD_WITH_STATEMENT",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "order": 5
+    },
+    "showDecorators": {
+      "title": "Show inline decorators",
+      "description": "Controls whether the problem of the code should be shown along with the code",
+      "type": "boolean",
+      "default": true,
+      "order": 6
+    },
+    "showFullDescription": {
+      "title": "Show full description",
+      "description": "Controls whether the full description of the issue should be shown when you hover it. Applied after reopening the file.",
+      "type": "boolean",
+      "default": true,
+      "order": 7
+    }
+  },
+  "scripts": {
+    "test": "apm test"
+  },
+  "keywords": [
+    "javascript",
+    "jsx",
+    "typescript",
+    "react",
+    "linters",
+    "vuejs"
+  ],
+  "dependencies": {
+    "atom-babel6-transpiler": "^1.2.0",
+    "atom-package-deps": "^5.1.0",
+    "babel-preset-env": "^1.7.0",
+    "atom-linter": "^10.0.0",
+    "crypto-random-string": "^1.0.0",
+    "marked": "^1.1.1",
+    "dompurify": "^2.0.12",
+    "axios": "^0.19.2",
+    "form-data": "^3.0.0"
+  },
+  "devDependencies": {},
+  "package-deps": [
+    "linter:2.0.0"
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "2.0.0": "provideLinter"
+      }
+    }
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "atomTranspilers": [
+    {
+      "glob": "{src,spec}/*.js",
+      "transpiler": "atom-babel6-transpiler",
+      "options": {
+        "setBabelEnv": false,
+        "babel": {
+          "presets": [
+            [
+              "env",
+              {
+                "targets": {
+                  "node": "current"
+                }
+              }
+            ]
+          ],
+          "sourceMaps": "inline",
+          "babelrc": false
+        },
+        "cacheKeyFiles": [
+          "package.json"
+        ]
+      }
+    }
+  ]
+}
